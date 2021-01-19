@@ -58,7 +58,7 @@ exports.saveRoute = async (req, res, next) => {
 
 exports.getRoutes = async (req, res, next) => {
   let page = Number(req.query.page) || 1;
-  let paginate = req.query.paginate || true;
+  let paginate = req.query.paginate === 'false' ? false : true;
   let searchquery = req.query.searchquery;
   let filter = {};
   if (searchquery) {

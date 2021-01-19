@@ -4,7 +4,7 @@ const Feedback = require('../lib/Feedback');
 const Sanitizer = require('../lib/Sanitizer');
 const Validator = require('../lib/Validator');
 const { emailExists, mobileExists } = require('../lib/helpers');
-const pageSize = 3;
+const pageSize = 10;
 
 exports.saveDriver = async (req, res, next) => {
   let driverData = Sanitizer.sanitize(req.body);
@@ -58,7 +58,7 @@ exports.saveDriver = async (req, res, next) => {
 
 exports.getDrivers = async (req, res, next) => {
   let page = Number(req.query.page) || 1;
-  let paginate = req.query.paginate || true;
+  let paginate = req.query.paginate === 'false' ? false : true;
   let searchquery = req.query.searchquery;
   let filter = {};
   if (searchquery) {
@@ -69,6 +69,7 @@ exports.getDrivers = async (req, res, next) => {
       { maritalStatus: { [BaseModel.Sequelize.Op.like]: `%${searchquery}%` } },
     ];
   }
+  
   let pager = new Pager('Driver', pageSize, page);
   let feedback = await pager.getData(
     filter,

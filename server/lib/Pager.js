@@ -33,7 +33,6 @@ module.exports = class Pager {
       include: include,
       order: order,
     };
-
     if (hasPagination) {
       this.filter.offset = offset;
       this.filter.limit = this.pageSize;
